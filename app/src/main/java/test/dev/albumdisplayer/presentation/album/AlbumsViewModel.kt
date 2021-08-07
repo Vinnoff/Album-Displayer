@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import test.dev.albumdisplayer.common.utils.CustomCoroutineExceptionHandler
 import test.dev.albumdisplayer.domain.GetAlbumListUseCase
 import test.dev.albumdisplayer.presentation.BaseViewModel
 
@@ -15,7 +16,8 @@ class AlbumsViewModel(
     val liveDataAlbumList: LiveData<AlbumsViewState> get() = _liveDataAlbumList
 
     init {
-        launch {
+        _liveDataAlbumList.value = AlbumsViewState.LOADER
+        launch(CustomCoroutineExceptionHandler { _liveDataAlbumList.value = AlbumsViewState.ERROR }) {
             _liveDataAlbumList.value = getAlbumListUseCase.invoke().toViewState()
         }
     }

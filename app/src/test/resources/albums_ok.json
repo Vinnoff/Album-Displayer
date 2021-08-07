@@ -1,0 +1,44 @@
+[
+  {
+    "albumId": 1,
+    "id": 11,
+    "title": "titre 1",
+    "url": "url",
+    "thumbnailUrl": "url_thumbnail"
+  },
+  {
+    "albumId": 1,
+    "id": 12,
+    "title": "titre 2",
+    "url": "url",
+    "thumbnailUrl": "url_thumbnail"
+  },
+  {
+    "albumId": 1,
+    "id": 13,
+    "title": "titre 3",
+    "url": "url",
+    "thumbnailUrl": "url_thumbnail"
+  },
+  {
+    "albumId": 2,
+    "id": 21,
+    "title": "titre 1",
+    "url": "",
+    "thumbnailUrl": "url_thumbnail"
+  },
+  {
+    "albumId": 2,
+    "id": 22,
+    "title": "titre 2",
+    "url": "url",
+    "thumbnailUrl": null
+  },
+  {
+    "albumId": 3,
+    "id": 31,
+    "title": "titre 1",
+    "url": "url",
+    "thumbnailUrl": "url_thumbnail"
+  }
+]

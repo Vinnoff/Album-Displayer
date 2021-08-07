@@ -16,12 +16,14 @@ class GetAlbumListUseCase(private val albumRepository: AlbumRepository) {
     }
 
     private fun GetAlbumListResponse.toEntity(): AlbumData? {
-        return if (id != null && albumId != null && title != null && url != null) AlbumData(
+        return if (id != null && albumId != null && !title.isNullOrBlank()) AlbumData(
             id = id,
             albumId = albumId,
             title = title,
-            url = url,
-            thumbnailUrl = thumbnailUrl ?: url,
+            url = url?.nullIfEmpty() ?: thumbnailUrl?.nullIfEmpty(),
+            thumbnailUrl = thumbnailUrl?.nullIfEmpty() ?: url?.nullIfEmpty(),
         ) else null
     }
 }
+
+private fun String.nullIfEmpty() = if (isEmpty()) null else this
