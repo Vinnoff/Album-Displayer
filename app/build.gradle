@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "HOST", "\"https://static.leboncoin.fr/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
