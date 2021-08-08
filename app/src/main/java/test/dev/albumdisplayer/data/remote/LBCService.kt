@@ -2,7 +2,7 @@ package test.dev.albumdisplayer.data.remote
 
 import retrofit2.Response
 import retrofit2.http.GET
-import test.dev.albumdisplayer.data.remote.response.GetAlbumListResponse
+import test.dev.albumdisplayer.data.response.GetAlbumListResponse
 
 interface LBCService {
     @GET("/img/shared/technical-test.json")

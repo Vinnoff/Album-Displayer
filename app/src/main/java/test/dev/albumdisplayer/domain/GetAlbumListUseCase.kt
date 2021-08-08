@@ -1,7 +1,7 @@
 package test.dev.albumdisplayer.domain
 
-import test.dev.albumdisplayer.data.remote.response.GetAlbumListResponse
 import test.dev.albumdisplayer.data.repository.AlbumRepository
+import test.dev.albumdisplayer.data.response.GetAlbumListResponse
 import test.dev.albumdisplayer.domain.entity.AlbumData
 import test.dev.albumdisplayer.domain.entity.AlbumsEntity
 

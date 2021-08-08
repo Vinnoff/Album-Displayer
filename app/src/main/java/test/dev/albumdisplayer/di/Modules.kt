@@ -1,12 +1,15 @@
 package test.dev.albumdisplayer.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -14,6 +17,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import test.dev.albumdisplayer.BuildConfig
+import test.dev.albumdisplayer.data.local.LBCDao
+import test.dev.albumdisplayer.data.local.LBCDatabase
+import test.dev.albumdisplayer.data.local.source.LocalDataSource
 import test.dev.albumdisplayer.data.remote.LBCService
 import test.dev.albumdisplayer.data.remote.source.RemoteDataSource
 import test.dev.albumdisplayer.data.repository.AlbumRepository
@@ -25,18 +31,30 @@ import java.util.concurrent.TimeUnit
 
 class Modules {
     companion object {
-        val rootModule = module {
-            single<CoroutineDispatcher> { Dispatchers.Main }
+        val networkModule = module {
             single { createCache(androidContext()) }
             single { createOkHttpClient(get()) }
-        }
-
-        val dataModule = module {
+            single { createLBCWebService(get()) }
             single { RemoteDataSource(get()) }
 
-            single<LBCService> { createLBCWebService(get()) }
+        }
 
-            single<AlbumRepository> { AlbumRepositoryImpl(get()) }
+        val localModule = module {
+
+            fun provideDatabase(application: Application) =
+                Room.databaseBuilder(application, LBCDatabase::class.java, "lbc")
+                    .fallbackToDestructiveMigration()
+                    .build()
+
+            fun provideCountriesDao(database: LBCDatabase) = database.lbcDao
+
+            single { provideDatabase(androidApplication()) }
+            single { provideCountriesDao(get()) }
+            single { LocalDataSource(get()) }
+        }
+
+        val repositoryModule = module {
+            single<AlbumRepository> { AlbumRepositoryImpl(get(), get()) }
         }
 
         val domainModule = module {
@@ -44,9 +62,22 @@ class Modules {
         }
 
         val presentationModule = module {
+            single<CoroutineDispatcher> { Dispatchers.Main }
             viewModel { AlbumsViewModel(get(), get()) }
         }
     }
+}
+
+fun createRoomDatabase(context: Context): LBCDatabase {
+    return Room.databaseBuilder(
+        context,
+        LBCDatabase::class.java,
+        "album_displayer.db",
+    ).build()
+}
+
+fun provideDao(database: LBCDatabase): LBCDao {
+    return database.lbcDao
 }
 
 fun createCache(context: Context): Cache {
@@ -57,12 +88,11 @@ fun createCache(context: Context): Cache {
 fun createOkHttpClient(cache: Cache): OkHttpClient = OkHttpClient.Builder()
     .connectTimeout(10, TimeUnit.SECONDS)
     .readTimeout(10, TimeUnit.SECONDS)
-    .cache(cache)
     .addNetworkInterceptor(StethoInterceptor())
     .addNetworkInterceptor(HttpLoggingInterceptor { message -> Timber.tag("okhttp").d(message) }.apply { level = HttpLoggingInterceptor.Level.BODY })
     .build()
 
-inline fun <reified T> createLBCWebService(okHttpClient: OkHttpClient): T {
+fun createLBCWebService(okHttpClient: OkHttpClient): LBCService {
     return Retrofit.Builder()
         .baseUrl(BuildConfig.HOST)
         .client(okHttpClient)

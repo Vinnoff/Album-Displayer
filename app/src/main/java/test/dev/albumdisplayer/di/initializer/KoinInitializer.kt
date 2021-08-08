@@ -8,10 +8,11 @@ import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import test.dev.albumdisplayer.ABApplication
 import test.dev.albumdisplayer.BuildConfig
-import test.dev.albumdisplayer.di.Modules.Companion.dataModule
 import test.dev.albumdisplayer.di.Modules.Companion.domainModule
+import test.dev.albumdisplayer.di.Modules.Companion.localModule
+import test.dev.albumdisplayer.di.Modules.Companion.networkModule
 import test.dev.albumdisplayer.di.Modules.Companion.presentationModule
-import test.dev.albumdisplayer.di.Modules.Companion.rootModule
+import test.dev.albumdisplayer.di.Modules.Companion.repositoryModule
 
 class KoinInitializer : Initializer<KoinApplication> {
     override fun create(context: Context): KoinApplication {
@@ -19,10 +20,11 @@ class KoinInitializer : Initializer<KoinApplication> {
             androidContext(context)
             modules(
                 listOf(
-                    rootModule,
-                    dataModule,
+                    networkModule,
+                    localModule,
+                    repositoryModule,
                     domainModule,
-                    presentationModule
+                    presentationModule,
                 )
             )
             if (BuildConfig.DEBUG) androidLogger()

@@ -13,7 +13,7 @@ import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import retrofit2.Response
 import test.dev.albumdisplayer.data.remote.LBCService
-import test.dev.albumdisplayer.data.remote.response.GetAlbumListResponse
+import test.dev.albumdisplayer.data.response.GetAlbumListResponse
 import kotlin.test.assertEquals
 
 class RemoteDataSourceTest {
