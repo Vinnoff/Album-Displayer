@@ -3,13 +3,15 @@ package test.dev.albumdisplayer.common.utils
 import android.content.Context
 import android.util.TypedValue
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import test.dev.albumdisplayer.R
 
-infix fun ImageView.load(imageUrl: String?) = Glide
+fun ImageView.load(imageUrl: String?, @DrawableRes placeHolderRes: Int = R.drawable.shape_album_placeholder) = Glide
     .with(context)
     .load(imageUrl)
-    .fitCenter()
+    .placeholder(placeHolderRes)
     .transition(DrawableTransitionOptions.withCrossFade())
     .into(this)
 

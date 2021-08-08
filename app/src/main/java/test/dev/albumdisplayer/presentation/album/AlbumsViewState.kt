@@ -2,12 +2,16 @@ package test.dev.albumdisplayer.presentation.album
 
 import test.dev.albumdisplayer.domain.entity.AlbumData
 import test.dev.albumdisplayer.domain.entity.AlbumsEntity
+import test.dev.albumdisplayer.presentation.album.list.AlbumView
 
 sealed class AlbumsViewState {
     object LOADER : AlbumsViewState()
     object ERROR : AlbumsViewState()
     object EMPTY : AlbumsViewState()
-    data class SUCCESS(val data: List<AlbumView>) : AlbumsViewState()
+    data class SUCCESS(
+        val dataHorizontal: List<AlbumView>,
+        val dataVertical: Map<Int, List<AlbumData>>,
+    ) : AlbumsViewState()
 }
 
 fun AlbumsEntity.toViewState(): AlbumsViewState {
@@ -28,5 +32,5 @@ private fun Map<Int, List<AlbumData>>.toViewState(): AlbumsViewState.SUCCESS {
         list.add(indexOfHeaderToInsert, AlbumView.HEADER(it.first))
         indexOfHeaderToInsert += it.second + 1 //the accumulator calculate the next position which is its position + the content size + 1 for the new header
     }
-    return AlbumsViewState.SUCCESS(list)
+    return AlbumsViewState.SUCCESS(list, this)
 }

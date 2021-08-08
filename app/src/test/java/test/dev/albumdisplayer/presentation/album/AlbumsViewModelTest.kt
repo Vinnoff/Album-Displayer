@@ -13,6 +13,7 @@ import org.junit.Test
 import test.dev.albumdisplayer.TestAlbum
 import test.dev.albumdisplayer.domain.GetAlbumListUseCase
 import test.dev.albumdisplayer.domain.entity.AlbumsEntity
+import test.dev.albumdisplayer.presentation.Event
 
 class AlbumsViewModelTest {
     @Rule
@@ -26,6 +27,7 @@ class AlbumsViewModelTest {
     private val dispatcher = TestCoroutineDispatcher()
 
     private val albumListObserver: Observer<AlbumsViewState> = spyk()
+    private val navigationObserver: Observer<Event<AlbumsNavigation>> = spyk()
 
     @Before
     fun setUp() {
@@ -34,6 +36,7 @@ class AlbumsViewModelTest {
 
     @After
     fun finally() {
+        classUnderTest.liveDataNavigation.removeObserver(navigationObserver)
         classUnderTest.liveDataAlbumList.removeObserver(albumListObserver)
     }
 
@@ -44,12 +47,14 @@ class AlbumsViewModelTest {
             coEvery { getAlbumListUseCase.invoke() } returns AlbumsEntity.SUCCESS(TestAlbum.ENTITY_SUCCESS)
 
             //WHEN
+            classUnderTest.liveDataNavigation.observeForever(navigationObserver)
             classUnderTest.liveDataAlbumList.observeForever(albumListObserver)
 
             //THEN
             coVerifySequence {
                 getAlbumListUseCase.invoke()
-                albumListObserver.onChanged(AlbumsViewState.SUCCESS(TestAlbum.VIEW_STATE_SUCCESS))
+                navigationObserver.onChanged(Event(AlbumsNavigation.LIST))
+                albumListObserver.onChanged(AlbumsViewState.SUCCESS(TestAlbum.VIEW_STATE_SUCCESS, TestAlbum.ENTITY_SUCCESS))
             }
         }
     }
@@ -61,11 +66,13 @@ class AlbumsViewModelTest {
             coEvery { getAlbumListUseCase.invoke() } returns AlbumsEntity.ERROR
 
             //WHEN
+            classUnderTest.liveDataNavigation.observeForever(navigationObserver)
             classUnderTest.liveDataAlbumList.observeForever(albumListObserver)
 
             //THEN
             coVerifySequence {
                 getAlbumListUseCase.invoke()
+                navigationObserver.onChanged(Event(AlbumsNavigation.LIST))
                 albumListObserver.onChanged(AlbumsViewState.ERROR)
             }
         }
@@ -78,11 +85,13 @@ class AlbumsViewModelTest {
             coEvery { getAlbumListUseCase.invoke() } returns AlbumsEntity.EMPTY
 
             //WHEN
+            classUnderTest.liveDataNavigation.observeForever(navigationObserver)
             classUnderTest.liveDataAlbumList.observeForever(albumListObserver)
 
             //THEN
             coVerifySequence {
                 getAlbumListUseCase.invoke()
+                navigationObserver.onChanged(Event(AlbumsNavigation.LIST))
                 albumListObserver.onChanged(AlbumsViewState.EMPTY)
             }
         }

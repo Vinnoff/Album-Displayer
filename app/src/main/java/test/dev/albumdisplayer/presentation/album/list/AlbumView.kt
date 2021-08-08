@@ -1,4 +1,4 @@
-package test.dev.albumdisplayer.presentation.album
+package test.dev.albumdisplayer.presentation.album.list
 
 import test.dev.albumdisplayer.domain.entity.AlbumData
 

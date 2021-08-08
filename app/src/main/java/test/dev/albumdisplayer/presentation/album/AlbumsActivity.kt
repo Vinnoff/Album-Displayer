@@ -1,32 +1,25 @@
 package test.dev.albumdisplayer.presentation.album
 
-import kotlinx.android.synthetic.main.albums_activty.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import test.dev.albumdisplayer.R
 import test.dev.albumdisplayer.presentation.BaseActivity
-import timber.log.Timber
+import test.dev.albumdisplayer.presentation.album.list.TrackListFragment
 
 class AlbumsActivity : BaseActivity(R.layout.albums_activty) {
     private val albumsViewModel: AlbumsViewModel by viewModel()
-    private val albumAdapter: AlbumAdapter by lazy { AlbumAdapter() }
-    override fun initUI() {
-        albums_rv.adapter = albumAdapter
-    }
+    private val listFragment: TrackListFragment by lazy { TrackListFragment() }
+
+    override fun initUI() = Unit
 
     override fun initObserver() {
-        albumsViewModel.liveDataAlbumList.observe(this) { viewState ->
-            showLoader(viewState is AlbumsViewState.LOADER)
-            when (viewState) {
-                is AlbumsViewState.EMPTY -> showError()
-                is AlbumsViewState.ERROR -> showError()
-                is AlbumsViewState.SUCCESS -> handleData(viewState.data)
+        albumsViewModel.liveDataNavigation.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { nav ->
+                when (nav) {
+                    AlbumsNavigation.LIST -> supportFragmentManager.beginTransaction()
+                        .replace(R.id.albums_fragment_container, listFragment)
+                        .commit()
+                }
             }
-
         }
-    }
-
-    private fun handleData(data: List<AlbumView>) {
-        albumAdapter.submitList(data)
-        Timber.d(data.toString())
     }
 }

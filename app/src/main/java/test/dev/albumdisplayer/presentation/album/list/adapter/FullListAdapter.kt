@@ -1,4 +1,4 @@
-package test.dev.albumdisplayer.presentation.album
+package test.dev.albumdisplayer.presentation.album.list.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +11,9 @@ import kotlinx.android.synthetic.main.album_list_item.view.*
 import test.dev.albumdisplayer.R
 import test.dev.albumdisplayer.common.utils.load
 import test.dev.albumdisplayer.domain.entity.AlbumData
+import test.dev.albumdisplayer.presentation.album.list.AlbumView
 
-class AlbumAdapter : ListAdapter<AlbumView, AlbumAdapter.ViewHolder>(ItemCallback()) {
+class FullListAdapter : ListAdapter<AlbumView, FullListAdapter.ViewHolder>(ItemCallback()) {
     private val HEADER = 1
     private val CONTENT = 2
 

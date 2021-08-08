@@ -1,7 +1,7 @@
 package test.dev.albumdisplayer
 
 import test.dev.albumdisplayer.domain.entity.AlbumData
-import test.dev.albumdisplayer.presentation.album.AlbumView
+import test.dev.albumdisplayer.presentation.album.list.AlbumView
 
 class TestAlbum {
 
