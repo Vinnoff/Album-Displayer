@@ -26,9 +26,6 @@
             <meta-data
                 android:name="test.dev.albumdisplayer.di.initializer.KoinInitializer"
                 android:value="androidx.startup" />
-            <meta-data
-                android:name="test.dev.albumdisplayer.di.initializer.ThreeTenBPInitializer"
-                android:value="androidx.startup" />
         </provider>
         <activity
             android:name=".presentation.album.AlbumsActivity"

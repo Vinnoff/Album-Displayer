@@ -14,7 +14,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="windowNoTitle">true</item>
         <item name="textAllCaps">false</item>
-        <item name="android:windowBackground">?attr/colorPrimaryVariant</item>
+        <item name="android:windowBackground">?attr/colorSecondaryVariant</item>
         <item name="cardViewStyle">@style/Theme.AlbumDisplayer.cardViewStyle</item>
     </style>
 
@@ -25,7 +25,7 @@
 
 
     <style name="Theme.AlbumDisplayer.cardViewStyle">
-        <item name="cardBackgroundColor">?attr/colorPrimary</item>
+        <item name="cardBackgroundColor">?attr/colorPrimaryVariant</item>
         <item name="cardCornerRadius">20dp</item>
     </style>
 

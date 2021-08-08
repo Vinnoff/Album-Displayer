@@ -27,7 +27,7 @@ abstract class BaseFragment(@LayoutRes val layoutRes: Int) : Fragment() {
         if (BuildConfig.DEBUG) Toast.makeText(requireContext(), "Loading : $isLoading", Toast.LENGTH_SHORT).show()
     }
 
-    open fun showError(errorText: String? = null) {
-        if (BuildConfig.DEBUG) Toast.makeText(requireContext(), errorText ?: "Error", Toast.LENGTH_SHORT).show()
+    open fun showError(errorText: String = "Error") {
+        if (BuildConfig.DEBUG) Toast.makeText(requireContext(), errorText, Toast.LENGTH_SHORT).show()
     }
 }

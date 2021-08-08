@@ -6,16 +6,72 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/albums_rv"
+        android:id="@+id/tracklist_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/albums_guideline"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/albums_guideline"
+        app:spanCount="2"
+        tools:listitem="@layout/album_list_item"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/header_background"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:src="@drawable/shape_header_background"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/album_header_item" />
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/albums_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="20dp"
+        android:orientation="horizontal"
+        android:requiresFadingEdge="horizontal"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@id/header_background"
+        app:layout_constraintLeft_toRightOf="@id/header_previous"
+        app:layout_constraintRight_toLeftOf="@id/header_next"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/album_header_item"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/header_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_left"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/albums_rv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/albums_rv"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/header_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_right"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/albums_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/albums_rv"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/albums_guideline"
@@ -24,15 +80,29 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tracklist_rv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+    <ImageView
+        android:id="@+id/tracklist_fragment_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/albums_guideline"
-        app:spanCount="2"
-        tools:listitem="@layout/album_list_item" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher_round"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tracklist_fragment_error"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/generic_error" />
 </androidx.constraintlayout.widget.ConstraintLayout>

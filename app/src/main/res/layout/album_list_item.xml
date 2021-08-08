@@ -19,6 +19,7 @@
             android:layout_height="80dp"
             android:layout_margin="8dp"
             android:src="@drawable/ic_music_disc"
+            tools:src="@tools:sample/avatars"
             app:layout_constraintBottom_toTopOf="@id/album_list_item_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

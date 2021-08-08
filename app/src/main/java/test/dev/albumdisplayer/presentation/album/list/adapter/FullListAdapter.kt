@@ -40,14 +40,14 @@ class FullListAdapter : ListAdapter<AlbumView, FullListAdapter.ViewHolder>(ItemC
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bindHeader(id: Int) {
             with(view) {
-                album_header_id.text = "Album : $id"
+                album_header_id.text = "Album #$id"
             }
         }
 
         fun bindContent(album: AlbumData) {
             with(view) {
                 album_list_item_thumbnail.load(album.thumbnailUrl)
-                album_list_item_id.text = album.id.toString()
+                album_list_item_id.text = "#${album.id}"
                 album_list_item_title.text = album.title
             }
         }

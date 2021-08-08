@@ -1,10 +1,8 @@
 package test.dev.albumdisplayer.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -40,16 +38,8 @@ class Modules {
         }
 
         val localModule = module {
-
-            fun provideDatabase(application: Application) =
-                Room.databaseBuilder(application, LBCDatabase::class.java, "lbc")
-                    .fallbackToDestructiveMigration()
-                    .build()
-
-            fun provideCountriesDao(database: LBCDatabase) = database.lbcDao
-
-            single { provideDatabase(androidApplication()) }
-            single { provideCountriesDao(get()) }
+            single { createDatabase(androidApplication()) }
+            single { provideDao(get()) }
             single { LocalDataSource(get()) }
         }
 
@@ -62,13 +52,13 @@ class Modules {
         }
 
         val presentationModule = module {
-            single<CoroutineDispatcher> { Dispatchers.Main }
+            single { Dispatchers.IO }
             viewModel { AlbumsViewModel(get(), get()) }
         }
     }
 }
 
-fun createRoomDatabase(context: Context): LBCDatabase {
+fun createDatabase(context: Context): LBCDatabase {
     return Room.databaseBuilder(
         context,
         LBCDatabase::class.java,
@@ -88,6 +78,7 @@ fun createCache(context: Context): Cache {
 fun createOkHttpClient(cache: Cache): OkHttpClient = OkHttpClient.Builder()
     .connectTimeout(10, TimeUnit.SECONDS)
     .readTimeout(10, TimeUnit.SECONDS)
+    .cache(cache)
     .addNetworkInterceptor(StethoInterceptor())
     .addNetworkInterceptor(HttpLoggingInterceptor { message -> Timber.tag("okhttp").d(message) }.apply { level = HttpLoggingInterceptor.Level.BODY })
     .build()

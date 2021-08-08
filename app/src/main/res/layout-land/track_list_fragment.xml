@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,6 +10,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/album_list_item" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        tools:listitem="@layout/album_list_item"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/tracklist_fragment_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        tools:src="@mipmap/ic_launcher_round"
+        tools:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/tracklist_fragment_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:visibility="gone"
+        tools:text="@string/generic_error" />
+</FrameLayout>

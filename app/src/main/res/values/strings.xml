@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Album Displayer</string>
+    <string name="empty_list">Aucun élément n\'a pu être trouvé</string>
+    <string name="generic_error">Une erreur est survenue</string>
 </resources>

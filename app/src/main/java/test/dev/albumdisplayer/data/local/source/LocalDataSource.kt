@@ -1,22 +1,16 @@
 package test.dev.albumdisplayer.data.local.source
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import test.dev.albumdisplayer.data.local.LBCDao
 import test.dev.albumdisplayer.data.response.GetAlbumListDatabase
 import test.dev.albumdisplayer.data.response.GetAlbumListResponse
 
 class LocalDataSource(private val dao: LBCDao) {
-    suspend fun getAlbums(): List<GetAlbumListResponse>? {
-        return withContext(Dispatchers.Default) {
-            dao.getAlbumList().map { it.toResponse() }.ifEmpty { null }
-        }
+    fun getAlbums(): List<GetAlbumListResponse>? {
+        return dao.getAlbumList().map { it.toResponse() }.ifEmpty { null }
     }
 
-    suspend fun putAlbumsInCache(toCache: List<GetAlbumListResponse>) {
-        return withContext(Dispatchers.Default) {
-            dao.insertAlbumList(toCache.map { it.toModel() })
-        }
+    fun putAlbumsInCache(toCache: List<GetAlbumListResponse>) {
+        dao.insertAlbumList(toCache.map { it.toModel() })
     }
 }
 

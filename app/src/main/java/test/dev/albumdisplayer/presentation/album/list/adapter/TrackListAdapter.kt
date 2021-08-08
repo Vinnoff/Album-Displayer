@@ -27,7 +27,7 @@ class TrackListAdapter : ListAdapter<AlbumData, TrackListAdapter.ViewHolder>(Ite
         fun bind(album: AlbumData) {
             with(view) {
                 album_list_item_thumbnail.load(album.thumbnailUrl)
-                album_list_item_id.text = album.id.toString()
+                album_list_item_id.text = "#${album.id}"
                 album_list_item_title.text = album.title
             }
         }

@@ -24,7 +24,7 @@ class HeaderAdapter : ListAdapter<Int, HeaderAdapter.ViewHolder>(ItemCallback())
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(id: Int) {
             with(view) {
-                album_header_id.text = "Album\n$id"
+                album_header_id.text = "Album\n#${id}"
             }
         }
     }
