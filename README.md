@@ -1,6 +1,10 @@
 # Album Displayer
 This project is a short dev test which consist of displaying a list of albums
 
+## Demo
+The app support both portrait and landscape orientation  
+![Portrait](../media/demo_vertical.gif?raw=true) ![Landscape](../media/demo_horizontal.gif?raw=true)
+
 ## Architecture
 ![Architecture Design](../media/architecture.png?raw=true)
 The app architecture is based on Clean Architecture and provides modules injected with Koin.  
